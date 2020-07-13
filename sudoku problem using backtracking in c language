@@ -1,0 +1,99 @@
+#include <stdio.h>
+#include<stdlib.h>
+void display(int *sudoku[])
+{
+    int i,j;
+    for(i=0;i<9;i++)
+    {
+        for(j=0;j<9;j++)
+        {
+            printf("%d",sudoku[i][j]);
+        }
+        printf("\n");
+    }
+    printf("\n");
+}
+int isSafe(int *sudoku[],int row,int col,int digit)
+{
+    int i,j;
+    for(i=0;i<9;i++)
+    {
+        if(sudoku[row][i]==digit){
+            return 0;}
+    }
+    for(i=0;i<9;i++)
+    {
+        if(sudoku[i][col]==digit)
+        {
+            return 0;
+        }
+    }
+    int x=row/3,y=col/3;
+    x=x*3;
+    y=y*3;
+    for(i=x;i<x+3;i++)
+    {
+        for(j=y;j<y+3;j++)
+        {
+            if(sudoku[i][j]==digit){
+                return 0;}
+        }
+    }
+    return 1;
+}
+void  solve(int *sudoku[9],int row,int col)
+{
+    int i;
+    if(row==8 && col==9)
+    {
+        display(sudoku);
+    }
+    
+    else
+    {
+        if(col==9)
+    {
+        row++;
+        col=0;
+    }
+     if(sudoku[row][col]==0)
+    {
+        for(i=1;i<=9;i++)
+        {
+            if(isSafe(sudoku,row,col,i)==1)
+            {
+                sudoku[row][col]=i;
+                solve(sudoku,row,col+1);
+                sudoku[row][col]=0;
+            }
+        }
+    }
+    else{
+        solve(sudoku,row,col+1);
+    }
+    }
+    
+}
+int main()
+{
+    int *sudoku[9];
+    int n,index,row,col,value,i,j;
+    
+    
+    for(index=0;index<9;index++)
+    {
+        sudoku[index]=(int*)calloc(9,sizeof(int));
+    }
+    scanf("%d",&n);
+    for(index=0;index<n;index++)
+    {
+        scanf("%d %d %d",&row,&col,&value);
+        sudoku[row][col]=value;
+    }
+  
+           solve(sudoku,0,0); 
+        
+    return 0;
+}
+
+
