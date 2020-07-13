@@ -1,0 +1,32 @@
+#include <stdio.h>
+double squareroot(double num)
+{
+    double precision=0.00001;
+    double approx=num,root;
+    if(num==0)
+        return 0;
+  
+        while(1)
+        {
+        root=(approx+(num/approx))/2;
+        if(root-approx>0 && root-approx<precision)
+            break;
+        else if(approx-root<precision)
+            break;
+        else
+            approx=root;
+        }
+        
+    return root;
+}
+
+
+int main()
+{
+    double n;
+    scanf("%lf",&n);
+    printf("%.2lf",squareroot(n));
+
+    return 0;
+}
+
